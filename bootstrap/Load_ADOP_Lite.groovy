@@ -1,9 +1,9 @@
-def ADOP_PLATFORM_REPO_URL = "https://github.com/Nikos-K/adop-platform-management.git"
+def ADOP_PLATFORM_REPO_URL = "https://github.com/Nikos-K/adop-lite-platform-management.git"
 
 job('Load_ADOP_Lite'){
 	description("This job is responsible for retrieving the ADOP Lite platform management repository as well as creating and running all the jobs required to load cartridges.")
 	parameters{
-    stringParam("ADOP_PLATFORM_REPO_URL","${ADOP_PLATFORM_MANAGEMENT_GIT_URL}","The URL of the git repo for Platform Management.")
+    stringParam("ADOP_PLATFORM_REPO_URL","https://github.com/Nikos-K/adop-lite-platform-management.git","The URL of the git repo for Platform Management.")
     booleanParam("INSTALL_JENKINS_PLUGINS", true, "Set to true to install the Jenkins Pluggins required for ADOP Lite.")
     booleanParam("SETUP_PLUGGABLE_SCM_LIBRARY", true, "Set to true to setup the ADOP Pluggable SCM Library.")
     booleanParam("GENERATE_EXAMPLE_WORKSPACE", true, "Should an example workspace be generated?")
@@ -54,7 +54,7 @@ job('Load_ADOP_Lite'){
       runner('Fail')
       steps {
         downstreamParameterized{
-          trigger("Jenkins_Configuration/Setup_ADOP_Pluggable_SCM_Library"){
+          trigger("Jenkins_Configuration/Setup_Adop_Pluggable_Scm_Library"){
             block {
               buildStepFailure('FAILURE')
               failure('FAILURE')
