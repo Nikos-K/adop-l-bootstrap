@@ -1,11 +1,12 @@
+def ADOP_PLATFORM_REPO_URL = "https://github.com/Nikos-K/adop-platform-management.git"
 
-generateLoadPlatformJob.with{
+job('Load_ADOP_Lite'){
 	description("This job is responsible for retrieving the ADOP Lite platform management repository as well as creating and running all the jobs required to load cartridges.")
 	parameters{
-	stringParam("ADOP_PLATFORM_REPO_URL","${ADOP_PLATFORM_MANAGEMENT_GIT_URL}","The URL of the git repo for Platform Management.")
-  booleanParam("INSTALL_JENKINS_PLUGINS", true, "Set to true to install the Jenkins Pluggins required for ADOP Lite.")
-  booleanParam("SETUP_PLUGGABLE_SCM_LIBRARY", true, "Set to true to setup the ADOP Pluggable SCM Library.")
-  booleanParam("GENERATE_EXAMPLE_WORKSPACE", true, "Should an example workspace be generated?")
+    stringParam("ADOP_PLATFORM_REPO_URL","${ADOP_PLATFORM_MANAGEMENT_GIT_URL}","The URL of the git repo for Platform Management.")
+    booleanParam("INSTALL_JENKINS_PLUGINS", true, "Set to true to install the Jenkins Pluggins required for ADOP Lite.")
+    booleanParam("SETUP_PLUGGABLE_SCM_LIBRARY", true, "Set to true to setup the ADOP Pluggable SCM Library.")
+    booleanParam("GENERATE_EXAMPLE_WORKSPACE", true, "Should an example workspace be generated?")
 	}
 	scm{
 		git{
