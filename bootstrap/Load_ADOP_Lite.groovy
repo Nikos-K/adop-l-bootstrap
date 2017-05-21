@@ -4,7 +4,6 @@ job('Load_ADOP_Lite'){
 	description("This job is responsible for retrieving the ADOP Lite platform management repository as well as creating and running all the jobs required to load cartridges.")
 	parameters{
     stringParam("ADOP_PLATFORM_REPO_URL","https://github.com/Nikos-K/adop-lite-platform-management.git","The URL of the git repo for Platform Management.")
-    booleanParam("INSTALL_JENKINS_PLUGINS", true, "Set to true to install the Jenkins Pluggins required for ADOP Lite.")
     booleanParam("SETUP_PLUGGABLE_SCM_LIBRARY", true, "Set to true to setup the ADOP Pluggable SCM Library.")
     booleanParam("GENERATE_EXAMPLE_WORKSPACE", true, "Should an example workspace be generated?")
 	}
@@ -30,23 +29,6 @@ job('Load_ADOP_Lite'){
       external("bootstrap/**/*.groovy")
 			lookupStrategy('JENKINS_ROOT')
     }
-		conditionalSteps {
-      condition {
-        booleanCondition('${INSTALL_JENKINS_PLUGINS}')
-      }
-      runner('Fail')
-      steps {
-        downstreamParameterized{
-          trigger("Jenkins_Configuration/Install_PLugins"){
-            block {
-              buildStepFailure('FAILURE')
-              failure('FAILURE')
-              unstable('UNSTABLE')
-            }
-          }
-				}
-      }
-    }
     conditionalSteps {
       condition {
         booleanCondition('${SETUP_PLUGGABLE_SCM_LIBRARY}')
@@ -64,13 +46,22 @@ job('Load_ADOP_Lite'){
 				}
       }
     }
-	}
-  publishers{
-    downstreamParameterized{
-      trigger("Platform_Management/Generate_Example_Workspace"){
-        condition("SUCCESS")
-        triggerWithNoParameters(true)
+		conditionalSteps {
+      condition {
+        booleanCondition('${GENERATE_EXAMPLE_WORKSPACE}')
+      }
+      runner('Fail')
+      steps {
+        downstreamParameterized{
+          trigger("Platform_Management/Generate_Example_Workspace"){
+            block {
+              buildStepFailure('FAILURE')
+              failure('FAILURE')
+              unstable('UNSTABLE')
+						}
+					}
+				}
       }
     }
-  }
+	}
 }
