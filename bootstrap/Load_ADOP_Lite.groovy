@@ -26,6 +26,10 @@ job('Load_ADOP_Lite'){
 	authenticationToken('gAsuE35s')
 	steps {
 		dsl {
+      external("bootstrap/Jenkins_Configuration/add_env_vars.groovy")
+			lookupStrategy('JENKINS_ROOT')
+    }
+		dsl {
       external("bootstrap/**/*.groovy")
 			lookupStrategy('JENKINS_ROOT')
     }
@@ -35,8 +39,8 @@ job('Load_ADOP_Lite'){
       }
       runner('Fail')
       steps {
-        downstreamParameterized{
-          trigger("Jenkins_Configuration/Setup_Adop_Pluggable_Scm_Library"){
+        downstreamParameterized {
+          trigger('Jenkins_Configuration/Setup_Adop_Pluggable_Scm_Library') {
             block {
               buildStepFailure('FAILURE')
               failure('FAILURE')
@@ -52,8 +56,8 @@ job('Load_ADOP_Lite'){
       }
       runner('Fail')
       steps {
-        downstreamParameterized{
-          trigger("Platform_Management/Generate_Example_Workspace"){
+        downstreamParameterized {
+          trigger('Platform_Management/Generate_Example_Workspace') {
             block {
               buildStepFailure('FAILURE')
               failure('FAILURE')
